@@ -1,0 +1,58 @@
+// Variables to keep track of resources and upgrades
+let gold = 0;
+let diamonds = 0;
+let pickaxeCost = 10;
+let drillCost = 50;
+
+// Function to update the resource display
+function updateResources() {
+	document.getElementById("gold").innerHTML = "Gold: " + gold;
+	document.getElementById("diamonds").innerHTML = "Diamonds: " + diamonds;
+}
+
+// Function to buy a pickaxe upgrade
+function buyPickaxe() {
+	if (gold >= pickaxeCost) {
+		gold -= pickaxeCost;
+		pickaxeCost *= 2;
+		updateResources();
+	}
+}
+
+// Function to buy a drill upgrade
+function buyDrill() {
+	if (gold >= drillCost) {
+		gold -= drillCost;
+		drillCost *= 2;
+		updateResources();
+	}
+}
+
+// Function to add gold when clicking the mine button
+function mineGold() {
+	gold++;
+	updateResources();
+}
+
+// Save game data to local storage
+function saveGame() {
+	localStorage.setItem("gold", gold);
+	localStorage.setItem("diamonds", diamonds);
+	localStorage.setItem("pickaxeCost", pickaxeCost);
+	localStorage.setItem("drillCost", drillCost);
+}
+
+// Load game data from local storage
+function loadGame() {
+	gold = parseInt(localStorage.getItem("gold")) || 0;
+	diamonds = parseInt(localStorage.getItem("diamonds")) || 0;
+	pickaxeCost = parseInt(localStorage.getItem("pickaxeCost")) || 10;
+	drillCost = parseInt(localStorage.getItem("drillCost")) || 50;
+	updateResources();
+}
+
+// Call the loadGame function when the page is loaded
+window.onload = loadGame;
+
+// Save game data every 10 seconds
+setInterval(saveGame, 10000);
